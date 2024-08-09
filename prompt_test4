@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            choice(
+                                name: 'ENTORNO', 
+                                description: 'Seleccionar el Entorno de ejecución', 
+                                choices: ['dev', 'test', 'pro']
+                            ),
+                            booleanParam(
+                                name: 'NUEVO_CALC', 
+                                description: 'Aplicar el nuevo calcúlo',
+                                defaultValue: true 
+                            ),
+                            string(
+                                name: 'PERIODO',
+                                description: 'Fecha al formato YYYY-MM-DD', 
+                                defaultValue: '2018-01-01', 
+                                trim: true
+                            ),
+                            text(
+                                name: 'MULTI-LINE-STRING',
+                                description: 'Bloque de texto', 
+                                defaultValue: '''
+                                this is a multi-line 
+                                string parameter example
+                                '''
+                            )
+                        ])
+                    ])
+                }
+            }
+        }
+        stage('Imprimir') {
+            steps {
+                script {
+                    echo params.ENTORNO
+                    echo "Periodo: ${PERIODO}"
+                    echo String.valueOf(params.NUEVO_CALC)
+                }
+            }
+        }
+    }   
+}
