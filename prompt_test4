@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'TL' }
+    agent { label 'localhost' }
     stages {
         stage('Setup parameters') {
             steps {
